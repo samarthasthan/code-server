@@ -1,5 +1,3 @@
-Certainly, here's the updated markdown file with instructions to replace the placeholder with the actual IPv4 address:
-
 ````markdown
 # Server Setup Script
 
@@ -117,7 +115,3 @@ screen -S code-server -dm code-server
 ```
 
 Make sure to replace `ipv4:22` in the script with your VPS's actual IPv4 address before running it. Also, review and customize the script according to your requirements.
-
-```
-
-```
