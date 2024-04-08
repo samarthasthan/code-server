@@ -1,18 +1,14 @@
 #!/bin/bash
 
-# Step 1
+# Install code-server
 curl -fsSL https://code-server.dev/install.sh | sh -s -- --dry-run
-
-# Step 2
 curl -fsSL https://code-server.dev/install.sh | sh
 
-# Step 3
+# Update and install nginx
 sudo apt update
+sudo apt install -y nginx
 
-# Step 4
-sudo apt install nginx
-
-# Step 5: Update nginx.conf
+# Update nginx.conf
 sudo cat > /etc/nginx/nginx.conf <<EOF
 user www-data;
 worker_processes auto;
@@ -38,35 +34,26 @@ http {
     server {
         listen 80;
         server_name vscode.samarthasthan.com;
+        
+        location / {
+            proxy_pass http://127.0.0.1:8080;
+            proxy_set_header Host \$host;
+            proxy_set_header Upgrade \$http_upgrade;
+            proxy_set_header Connection upgrade;
+            proxy_set_header Accept-Encoding gzip;
+        }
     }
-    
-    sendfile on;
-    tcp_nopush on;
-    types_hash_max_size 2048;
-    
-    include /etc/nginx/mime.types;
-    default_type application/octet-stream;
-    
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
-    ssl_prefer_server_ciphers on;
-    
-    access_log /var/log/nginx/access.log;
-    error_log /var/log/nginx/error.log;
-    
-    gzip on;
-    
-    include /etc/nginx/conf.d/*.conf;
-    include /etc/nginx/sites-enabled/*;
 }
 EOF
 
-# Step 6
+# Test nginx configuration
 sudo nginx -t
 
-# Step 7
+# Restart nginx
 sudo systemctl restart nginx
 
-# Step 8
+# Configure code-server
+sudo mkdir -p /root/.config/code-server/
 sudo cat > /root/.config/code-server/config.yaml <<EOF
 bind-addr: 127.0.0.1:8080
 auth: password
@@ -74,5 +61,5 @@ password: Romioisno1.
 cert: false
 EOF
 
-# Step 9
-screen -S code-server -dm code-server --proxy vscode.samarthasthan.com
+# Start code-server
+screen -S code-server -dm code-server
