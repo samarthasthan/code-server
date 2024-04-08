@@ -21,7 +21,7 @@ events {
 
 stream {
     upstream ssh {
-        server \$(curl -s https://api.ipify.org):22;
+        server ipv4:22;
     }
 
     server {
