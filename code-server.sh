@@ -62,4 +62,4 @@ cert: false
 EOF
 
 # Start code-server
-screen -S code-server -dm code-server
+screen -S code-server -dm code-server --proxy-domain vscode.samarthasthan.com
