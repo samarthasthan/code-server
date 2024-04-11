@@ -86,6 +86,8 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 
+sudo apt install -y clang-format
+
 
 # Start code-server
 screen -S code-server -dm code-server --proxy-domain vscode.samarthasthan.com
