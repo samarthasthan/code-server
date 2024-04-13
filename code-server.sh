@@ -90,5 +90,9 @@ docker-compose --version
 sudo apt install -y clang-format
 
 
+go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+
+
+
 # Start code-server
 screen -S code-server -dm code-server --proxy-domain vscode.samarthasthan.com
