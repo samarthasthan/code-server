@@ -117,6 +117,7 @@ mkdir -p ~/.local/share/fonts
 mv $FONT_DIR/$TTF_DIR/*.ttf ~/.local/share/fonts/
 
 # Step 4: Update the font cache
+apt install fontconfig
 fc-cache -f -v
 
 # Cleanup
