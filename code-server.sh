@@ -98,9 +98,11 @@ apt-get install -y migrate
 go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 
 # Install JetBrains font
+apt install unzip
+
 # Define variables
 FONT_URL="https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip"
-FONT_ZIP="JetBrainsMono.zip"
+FONT_ZIP="JetBrainsMono-2.304.zip"
 FONT_DIR="JetBrainsMono"
 TTF_DIR="fonts/ttf"
 
