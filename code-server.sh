@@ -8,58 +8,6 @@ curl -fsSL https://code-server.dev/install.sh | sh
 sudo apt update
 sudo apt install -y nginx
 
-# Update nginx.conf
-sudo cat > /etc/nginx/nginx.conf <<EOF
-user www-data;
-worker_processes auto;
-pid /run/nginx.pid;
-include /etc/nginx/modules-enabled/*.conf;
-
-events {
-    worker_connections 768;
-}
-
-stream {
-    upstream ssh {
-        server ipv4:22;
-    }
-
-    server {
-        listen 8022;
-        proxy_pass ssh;
-    }
-}
-
-http {
-    server {
-        listen 80;
-        server_name vscode.samarthasthan.com;
-        
-        location / {
-            proxy_pass http://127.0.0.1:8080;
-            proxy_set_header Host \$host;
-            proxy_set_header Upgrade \$http_upgrade;
-            proxy_set_header Connection upgrade;
-            proxy_set_header Accept-Encoding gzip;
-        }
-    }
-}
-EOF
-
-# Test nginx configuration
-sudo nginx -t
-
-# Restart nginx
-sudo systemctl restart nginx
-
-# Configure code-server
-sudo mkdir -p /root/.config/code-server/
-sudo cat > /root/.config/code-server/config.yaml <<EOF
-bind-addr: 127.0.0.1:8080
-auth: password
-password: Romioisno1.
-cert: false
-EOF
 
 sudo add-apt-repository ppa:longsleep/golang-backports
 sudo apt-get update
@@ -97,36 +45,5 @@ apt-get install -y migrate
 
 go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 
-# Install JetBrains font
-apt install unzip
-
-# Define variables
-FONT_URL="https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip"
-FONT_ZIP="JetBrainsMono-2.304.zip"
-FONT_DIR="JetBrainsMono"
-TTF_DIR="fonts/ttf"
-
-# Step 1: Download the font zip file
-wget $FONT_URL -O $FONT_ZIP
-
-# Step 2: Unzip the downloaded file
-unzip $FONT_ZIP -d $FONT_DIR
-
-# Step 3: Move the TTF font files to the local fonts directory
-mkdir -p ~/.local/share/fonts
-mv $FONT_DIR/$TTF_DIR/*.ttf ~/.local/share/fonts/
-
-# Step 4: Update the font cache
-apt install fontconfig
-fc-cache -f -v
-
-# Cleanup
-rm -f $FONT_ZIP
-rm -rf $FONT_DIR
-
-# Print success message
-echo "JetBrains Mono font installed successfully!"
 
 
-# Start code-server
-screen -S code-server -dm code-server --proxy-domain vscode.samarthasthan.com
