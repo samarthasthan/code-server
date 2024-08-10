@@ -21,7 +21,7 @@ events {
 
 stream {
     upstream ssh {
-        server ipv4:22;
+        server localhost:22;
     }
 
     server {
