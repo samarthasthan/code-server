@@ -98,9 +98,8 @@ apt-get install -y migrate
 go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 
 # install migrate 
-curl -s https://packagecloud.io/install/repositories/golang-migrate/migrate/script.deb.sh | sudo bash
-sudo apt-get update
-sudo apt-get install migrate
+wget http://github.com/golang-migrate/migrate/releases/latest/download/migrate.linux-amd64.deb
+sudo dpkg -i migrate.linux-amd64.deb
 
 # Start code-server
 screen -S code-server -dm code-server --proxy-domain vscode.samarthasthan.com
